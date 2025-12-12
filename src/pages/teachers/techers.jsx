@@ -26,7 +26,7 @@ const Teachers = () => {
   return (
     
       loading?<div className=' flex items-center justify-center flex-col h-screen  text-red-600 animate-bounce text-[24px]'>Loading...</div> :
-       < div className='grid grid-cols-4 gap-5 p-5 container mx-auto' > {
+       < div className='grid grid-cols-4 gap-6 p-5 container mx-auto' > {
         techers.map((el) => (
           <Link to={`/teachers/${el.id}`} className='max-w-[400px] w-full rounded bg-gray-400'>
             <img src={el.avatar} alt="" />
