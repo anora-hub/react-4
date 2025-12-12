@@ -1,0 +1,9 @@
+[build]
+  command = "npm run build"
+  publish = "build" # Agar CRA bo‘lsa
+  # publish = "dist" # Agar Vite bo‘lsa
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
