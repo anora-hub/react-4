@@ -2,22 +2,24 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-const Login = () => {
+const Login = ({setIsAuth}) => {
 
 const[phone, setPhone]=useState("");
 const[password , setPassword]= useState("")
 const navigate = useNavigate();
 
+console.log(setIsAuth);
+
 function logine(e){
     e.preventDefault()
     if(phone === "+998994468451" && password === "anora2009"){
+        setIsAuth(localStorage.setItem("auth" , true))
 navigate("/teachers")
          toast.success("Siz tizimga muvaffaqiyatli kirdingiz");
     }else{
-        toast.error("Login yoki parol xato");
+        toast.error("Login yoki parol ");
     }
 }
-
 
     return (
         <div className='flex items-center justify-center flex-col bg-gray-300 h-screen '>
