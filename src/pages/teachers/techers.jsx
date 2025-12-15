@@ -1,13 +1,89 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom';
+import { Await, Link } from 'react-router-dom';
 import { toast } from 'react-toastify/unstyled';
+import TeacherCard from '../../сomponents/TeacherCard';
 
 const Teachers = () => {
   const [techers, setTeachers] = useState([]);
-
   const [loading, setLoading] = useState(true)
-  const[teacherSearch , setTeachersSearch]=useState("")
+  const [teacherSearch, setTeachersSearch] = useState("")
+  const [isOpenMadal, setIsOpenMadal] = useState(false)
+  const [avatar, setAvatar] = useState("")
+  const [LastName, setLastName] = useState("")
+  const [science, setscience] = useState("")
+  const [salary, setsalary] = useState("")
+  const [age, setage] = useState("")
+  const [reting, setreting] = useState("")
+  const [phone, setphone] = useState("")
+  const [email, setemail] = useState("")
+  const [telegram, settelegram] = useState("")
+  const [Linkedin, setLinkedin] = useState("")
+  const [selected, setSelected] = useState(null)
+  console.log(edit);
+
+
+  async function addTeacher(e) {
+    e.preventDefault()
+    try {
+      if (selected) {
+        await axios.put(
+          `https://69207def31e684d7bfcd401b.mockapi.io/teachers/${selected}`,
+          { avatar, LastName, science, salary, age, reting, phone, email, telegram, Linkedin }
+        )
+      } else {
+        await axios.post(
+          "https://69207def31e684d7bfcd401b.mockapi.io/teachers",
+          { avatar, LastName, science, salary, age, reting, phone, email, telegram, Linkedin }
+        )
+      }
+      toast.success("O'qituvchi muvaffaqiyatli qo'shildi")
+      setIsOpenMadal(false)
+      setSelected(null)
+      getAllTeachers()
+      setIsOpenMadal(false)
+
+
+      setAvatar("")
+      setLastName("")
+      setscience("")
+      setsalary("")
+      setage("")
+      setreting("")
+      setphone("")
+      setemail("")
+      settelegram("")
+      setLinkedin("")
+
+
+
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  async function edit(id) {
+    try {
+      let res = await axios.get(`https://69207def31e684d7bfcd401b.mockapi.io/teachers/${id}`)
+      setSelected(id)
+      setAvatar(res.data.avatar)
+      setLastName(res.data.LastName)
+      setscience(res.data.science)
+      setsalary(res.data.salary)
+      setage(res.data.age)
+      setreting(res.data.reting)
+      setphone(res.data.phone)
+      setemail(res.data.email)
+      setLinkedin(res.data.Linkedin)
+
+
+
+    } catch (err) {
+      console.log(err);
+
+    }
+  }
+
 
   async function getAllTeachers() {
     try {
@@ -23,116 +99,171 @@ const Teachers = () => {
   }
 
   useEffect(() => {
-    
+
     getAllTeachers()
   }, [teacherSearch])
 
- async function deleteteachers(id){
-try{
-  await axios.delete(`https://69207def31e684d7bfcd401b.mockapi.io/teachers/${id}`)
-  toast.success("Teachers muvaffaqiyatli o'chirildi ")
-  getAllTeachers()
-  
-}
-catch(err){
-  console.log(err);
-  
-}
+  async function deleteteachers(id) {
+    try {
+      await axios.delete(`https://69207def31e684d7bfcd401b.mockapi.io/teachers/${id}`)
+      toast.success("Teachers muvaffaqiyatli o'chirildi ")
+      getAllTeachers()
+
+    }
+    catch (err) {
+      console.log(err);
+
+    }
 
   }
 
 
   return (
-    
-      loading?<div className=' flex items-center justify-center flex-col h-screen  text-red-600 animate-bounce text-[24px]'>Loading...</div> :
-     <div >
-        <input onChange={(e)=>setTeachersSearch(e.target.value)}  className='border-[2px] border-[orangered] p-[10px]  text-[18px] fond-bold  text-black mt-[30px] ml-[70px] w-[1600px] rounded-[10px]' type="search" placeholder='Studentlarni qidirish' />
-        < div className='grid grid-cols-4 gap-6 p-5 container mx-auto' > {
-          techers.map((el) => (
-           <div>
-             
-                <div key={el.id} class="border-[1px] border-[black]/30 max-w-[300px] w-full h-[440px] rounded-[20px] block mx-auto">
-                <Link to={`/teachers/${el.id}`} className='max-w-[400px] w-full rounded '>
-                  <div className="w-[80px] h-[80px] rounded-full overflow-hidden mx-auto mt-[10px]">
-                    <img
-                      src={el.avatar}
-                      alt=""
-                      className="w-full h-full object-cover"
-                    />
+
+    loading ? <div className=' flex items-center justify-center flex-col h-screen  text-red-600 animate-bounce text-[24px]'>Loading...</div> :
+      <div >
+        <div className='flex gap-[50px] items-center mt-[30px] ml-[70px]'>
+          <input onChange={(e) => setTeachersSearch(e.target.value)} className='border-[2px] border-[orangered] p-[10px]  text-[18px] fond-bold  text-black   w-[600px] rounded-[10px]' type="search" placeholder='Studentlarni qidirish' />
+          <button onClick={() => setIsOpenMadal(true)} className='bg-blue-600 text-white p-[10px] rounded-[10px] text-[18px]  curcor-pointer '>
+            O'qituvchi qo'shish
+          </button>
+        </div>
+
+
+        {
+          isOpenMadal ?
+            <div onClick={(() => {
+              setIsOpenMadal(false), setSelected(null), setAvatar("")
+              setLastName("")
+              setscience("")
+              setsalary("")
+              setage("")
+              setreting("")
+              setphone("")
+              setemail("")
+              settelegram("")
+              setLinkedin("")
+            })} class="fixed bg-black/10  backdrop-blur-sm top-0 left-0 flex items-center   justify-center z-40 w-full h-full   ">
+              <form onSubmit={addTeacher} onClick={(e) => e.stopPropagation()} class="  max-w-md mx-auto bg-[black]/70 mb-[60px] p-[40px]  rounded-[10px ] rounded-[10px]">
+                <div class="relative z-0 w-full mb-5 group">
+                  <input type=""
+                    value={avatar}
+                    onChange={(e) => setAvatar(e.target.value)}
+                    class="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-[white] appearance-none focus:outline-none focus:ring-0 focus:border-brand peer"
+                    placeholder=" " />
+                  <label for="floating_email"
+                    class="absolute text-sm text-[white] duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Avatar</label>
+                </div>
+                <div class="relative z-0 w-full mb-5 group">
+                  <input type="name" id="floating_email"
+                    value={LastName}
+                    onChange={(e) => setLastName(e.target.value)}
+                    class="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-[white] appearance-none focus:outline-none focus:ring-0 focus:border-brand peer"
+                    placeholder=" " />
+                  <label for=""
+                    class="absolute text-sm text-white duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">LastName</label>
+                </div>
+                <div class="relative z-0 w-full mb-5 group">
+                  <input type="text" id="floating_email"
+                    value={science}
+                    onChange={(e) => setscience(e.target.value)}
+                    class="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-[white] appearance-none focus:outline-none focus:ring-0 focus:border-brand peer"
+                    placeholder=" " />
+                  <label for=""
+                    class="absolute text-sm text-white duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Sciance</label>
+                </div>
+                <div class="relative z-0 w-full mb-5 group">
+                  <input type="name" id="floating_email"
+                    value={salary}
+                    onChange={(e) => setsalary(e.target.value)}
+                    class="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-[white] appearance-none focus:outline-none focus:ring-0 focus:border-brand peer"
+                    placeholder=" " />
+                  <label for=""
+                    class="absolute text-sm text-white duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Salory</label>
+                </div>
+
+                <div class="grid md:grid-cols-2 md:gap-6">
+                  <div class="relative z-0 w-full mb-5 group">
+                    <input type="name" name="floating_first_name" id="floating_first_name"
+                      value={age}
+                      onChange={(e) => setage(e.target.value)}
+                      class="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-[white] appearance-none focus:outline-none focus:ring-0 focus:border-brand peer"
+                      placeholder=" " required />
+                    <label for="floating_first_name"
+                      class="absolute text-sm text-white duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">age</label>
                   </div>
-              </Link>
-
-                  <h1 class="text-center pt-[7px] font-[600]">{el.LastName}</h1>
-
-                  <button class="border ml-auto bg-[black]/20 mr-auto block px-[20px] rounded-[10px]">
-                    {el.science.name}
-                  </button>
-
-                  <div class="flex gap-[30px] justify-center pt-[9px]">
-                    <div class="flex gap-[2px] items-center">
-                      <svg class="text-[black] dark:text-gray-400 w-[16px] h-[16px]" xmlns=" http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
-                        <rect width="20" height="14" x="2" y="6" rx="2"></rect>
-                      </svg>
-                      <p>{el.salary}</p>
-                    </div>
-
-                    <div class="flex gap-[2px] items-center">
-                      <svg class="text-[black] dark:text-gray-400 w-[16px] h-[16px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
-                        <path d="M16 3.128a4 4 0 0 1 0 7.744"></path>
-                        <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
-                        <circle cx="9" cy="7" r="4"></circle>
-                      </svg>
-                      <p> {el.age}y</p>
-                    </div>
-                  </div>
-
-                  <div class="flex gap-[5px] justify-center items-center">
-                    <svg class="w-[16px] h-[16px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="yellow" stroke="yellow" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                      <path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z">
-                      </path>
-                    </svg>
-                    <h1>{el.reting}</h1>
-                  </div>
-
-                  <div class="space-y-2 mb-4 pt-[40px] ml-[20px]">
-                    <div class="flex items-center gap-2 text-sm">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-phone h-4 w-4 flex-shrink-0 text-blue-500" aria-hidden="true"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"></path></svg>
-                      <span>{el.phone}</span>
-                    </div>
-
-                    <div class="flex items-center gap-2 text-sm">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mail h-4 w-4 flex-shrink-0 text-green-500" aria-hidden="true"><path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"></path><rect x="2" y="4" width="20" height="16" rx="2"></rect></svg>
-                      <span>{el.email}</span>
-                    </div>
-
-                    <div class="flex items-center gap-2 text-sm">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-send h-4 w-4 flex-shrink-0 text-blue-400" aria-hidden="true"><path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"></path><path d="m21.854 2.147-10.94 10.939"></path></svg>
-                      <span>@{el.telegram}</span>
-                    </div>
-
-                    <div class="flex items-center gap-2 text-sm">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-linkedin h-4 w-4 flex-shrink-0 text-blue-600" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect width="4" height="12" x="2" y="9"></rect><circle cx="4" cy="4" r="2"></circle></svg>
-
-                      <span>{el.Linkedin}</span>
-                    </div>
-                  </div>
-
-                  <div class="flex gap-[20px] mt-[30px] justify-center">
-                    <button onClick="edit(${el.id})"
-                      class="bg-[white] text-white px-[40px] py-[8px] rounded-md  hover:bg-[black]  ">Edit</button>
-
-                    <button onClick={() => deleteteachers(el.id)}
-                      class="bg-[white]  px-[40px] py-[8px] text-white px-3 rounded-md  hover:bg-[red]  ">Delete</button>
+                  <div class="relative z-0 w-full mb-5 group">
+                    <input type="name" name="floating_first_name" id="floating_first_name"
+                      value={reting}
+                      onChange={(e) => setreting(e.target.value)}
+                      class="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-[white] appearance-none focus:outline-none focus:ring-0 focus:border-brand peer"
+                      placeholder=" " required />
+                    <label for="floating_first_name"
+                      class="absolute text-sm text-white duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">rating</label>
                   </div>
                 </div>
-             
-             
-           </div>
+                <div class="grid md:grid-cols-2 md:gap-6">
+                  <div class="relative z-0 w-full mb-5 group">
+                    <input type="text" name="floating_phone" id="floating_phone"
+                      value={phone}
+                      onChange={(e) => setphone(e.target.value)}
+                      class="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-[white] appearance-none focus:outline-none focus:ring-0 focus:border-brand peer"
+                      placeholder=" " />
+                    <label for=""
+                      class="absolute text-sm text-white duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Phone</label>
+                  </div>
+                  <div class="relative z-0 w-full mb-5 group">
+                    <input type="text" name="floating_company" id="floating_company"
+                      value={email}
+                      onChange={(e) => setemail(e.target.value)}
+                      class="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-[white] appearance-none focus:outline-none focus:ring-0 focus:border-brand peer"
+                      placeholder=" " required />
+                    <label for="floating_company"
+                      class="absolute text-sm text-white duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">email</label>
+                  </div>
+                </div>
+                <div class="grid md:grid-cols-2 md:gap-6">
+                  <div class="relative z-0 w-full mb-5 group">
+                    <input type="text" name="" id="floating_phone"
+                      value={telegram}
+                      onChange={(e) => settelegram(e.target.value)}
+                      class="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-[white] appearance-none focus:outline-none focus:ring-0 focus:border-brand peer"
+                      placeholder=" " required />
+                    <label for=""
+                      class="absolute text-sm text-white duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">telegram</label>
+                  </div>
+                  <div class="relative z-0 w-full mb-5 group">
+                    <input type="text" name="floating_company" id="floating_company"
+                      value={
+                        Linkedin}
+                      onChange={(e) => setLinkedin(e.target.value)}
+                      class="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-[white] appearance-none focus:outline-none focus:ring-0 focus:border-brand peer"
+                      placeholder=" " />
+                    <label for="floating_company"
+                      class="absolute text-sm text-white duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">linkedin</label>
+                  </div>
+                </div>
+                <button id="btn" type="submit"
+                  class="text-white bg-[blue] box-border border border-[blue] rounded-[10px] hover:bg-brand-strong focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-base text-sm px-4 py-2.5 focus:outline-none">{selected ? "Tahrirlash" : "Qo'shish"}</button>
+              </form>
+            </div> : ""
+        }
+
+
+
+
+
+
+
+
+
+        < div className='grid grid-cols-4 gap-6 p-5 container mx-auto' > {
+          techers.map((el) => (
+
+            <TeacherCard {...el} edit={edit} setSelected={setSelected} setIsOpenMadal={setIsOpenMadal} deleteteachers={deleteteachers} />
           ))
         }</div >
-     </div>
+      </div>
 
   )
 }
@@ -141,4 +272,3 @@ export default Teachers
 
 
 
-  

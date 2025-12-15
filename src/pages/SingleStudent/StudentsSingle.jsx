@@ -25,7 +25,7 @@ const StudentsSingle = () => {
     }, [id])
 
     if (loading) {
-        return <div className="p-6 text-center">Loading...</div>
+        return <div className="flex items-center justify-center flex-col h-screen  text-red-600 animate-bounce text-[24px]">Loading...</div>
     }
 
     if (!student) {
