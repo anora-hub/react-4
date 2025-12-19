@@ -9,55 +9,58 @@ const Students = () => {
     const [Students, SetStudents] = useState([]);
     const [loading, setLoading] = useState(true)
     const [searchValue, setSearchValue] = useState("")
-    const[isOpenMadel , setIsOpenModel]= useState(false)
-    const[teachers , setTeachers] = useState([])
- const [avatar, setAvatar] = useState("")
-  const [LastName, setLastName] = useState("")
-  const[grade ,setgrade] = useState("")
-  const [coins, setcoins] = useState("")
-  const [age, setage] = useState("")
-  const [rating, setrating] = useState("")
-  const [phone, setphone] = useState("")
-  const [email, setemail] = useState("")
-  const [telegram, settelegram] = useState("")
-  const [Linkedin, setLinkedin] = useState("")
-  const[teacherId, setTeacherId]=useState("")
-
- 
+    const [isOpenMadel, setIsOpenModel] = useState(false)
+    const [teachers, setTeachers] = useState([])
+    const [avatar, setAvatar] = useState("")
+    const [LastName, setLastName] = useState("")
+    const [grade, setgrade] = useState("")
+    const [coins, setcoins] = useState("")
+    const [age, setage] = useState("")
+    const [rating, setrating] = useState("")
+    const [phone, setphone] = useState("")
+    const [email, setemail] = useState("")
+    const [telegram, settelegram] = useState("")
+    const [Linkedin, setLinkedin] = useState("")
+    const [teacherId, setTeacherId] = useState("")
 
 
 
-async function addStudent(e){
-    e.preventDefault()
-    try{
-        await axios.post(`https://69207def31e684d7bfcd401b.mockapi.io/teachers/${teacherId}/students` , 
-            {
-                avatar, LastName,  coins, grade, age, rating, phone, email, telegram, Linkedin  , teacherId
-            }
-           
-        )
-        toast.success("Student muvaffiqiyatli qoshildi")
-        setIsOpenModel(false)
-    }catch(err){
-        console.log(err);
+    async function addStudent(e) {
+        e.preventDefault()
+
         
+        try {
+            await axios.post(`https://69207def31e684d7bfcd401b.mockapi.io/teachers/${teacherId}/students`,
+                {
+                    avatar, LastName, coins, grade, age, rating, phone, email, telegram, Linkedin, teacherId
+                }
+            )
+
+            toast.success("Student muvaffiqiyatli qoshildi")
+            setIsOpenModel(false)
+            
+        } catch (err) {
+            console.log(err);
+
+        }
     }
-}
 
 
 
-useEffect(()=>{
-async function getTeachers(){
-    try{
-        let res = await axios.get("https://69207def31e684d7bfcd401b.mockapi.io/teachers")
-        setTeachers(res.data)
-    }catch(err){
-console.log(err);
+    useEffect(() => {
+        async function getTeachers() {
+            try {
+                let res = await axios.get("https://69207def31e684d7bfcd401b.mockapi.io/teachers")
+                setTeachers(res.data)
+                console.log(res.data);
+                
+            } catch (err) {
+                console.log(err);
 
-    }
-}
-    getTeachers()
-},[])
+            }
+        }
+        getTeachers()
+    }, [])
 
     useEffect(() => {
         async function getAllStudents() {
@@ -81,179 +84,189 @@ console.log(err);
 
                 <div>
 
-                     {
-                        isOpenMadel ? 
-                        <div 
-                        onClick={()=> setIsOpenModel(false)}
-                            class="fixed bg-black/10  backdrop-blur-sm top-0 left-0 flex items-center   justify-center z-40 w-full h-full ">
+                    {
+                        isOpenMadel ?
+                            <div
+                                onClick={() => setIsOpenModel(false)}
+                                className="fixed bg-black/10  backdrop-blur-sm top-0 left-0 flex items-center   justify-center z-40 w-full h-full ">
                                 <form onSubmit={addStudent} onClick={(e) => e.stopPropagation()} class="max-w-md mx-auto bg-[black]/70 p-[40px] rounded-[10px] mb-[60px]">
 
 
-                                <div class="relative z-0 w-full mb-5 group">
-                                        value={avatar}
-                                        onChange={(e) => setAvatar(e.target.value)}
-                                    <input type="text" id="avatar"
-                                        class="block py-2.5 w-full text-sm text-white bg-transparent border-0 border-b-2 border-white focus:outline-none focus:border-blue-500 peer"
-                                        placeholder=" " />
-                                    <label for="avatar"
-                                        class="absolute text-sm text-white duration-300 transform -translate-y-6 scale-75 top-3 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-                                        Avatar
-                                    </label>
-                                </div>
+                                    <div class="relative z-0 w-full mb-5 group">
 
 
-                                <div class="relative z-0 w-full mb-5 group">
-                                        value={LastName}
-                                        onChange={(e) => setLastName(e.target.value)}
-                                    <input type="text" id="lastname"
-                                        class="block py-2.5 w-full text-sm text-white bg-transparent border-0 border-b-2 border-white focus:outline-none focus:border-blue-500 peer"
-                                        placeholder=" " />
-                                    <label for="lastname"
-                                        class="absolute text-sm text-white duration-300 transform -translate-y-6 scale-75 top-3 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-                                        Last Name
-                                    </label>
-                                </div>
-
-                                <div class="relative z-0 w-full mb-5 group">
-                                        value={grade}
-                                        onChange={(e) => setgrade(e.target.value)}
-                                    <input type="text" id="lastname"
-                                        class="block py-2.5 w-full text-sm text-white bg-transparent border-0 border-b-2 border-white focus:outline-none focus:border-blue-500 peer"
-                                        placeholder=" " />
-                                    <label for="lastname"
-                                        class="absolute text-sm text-white duration-300 transform -translate-y-6 scale-75 top-3 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-                                        grade
-                                    </label>
-                                </div>
+                                        <input type="text" id="avatar"
+                                           onChange={(e) => setAvatar(e.target.value)}
+                                            className="block py-2.5 w-full text-sm text-white bg-transparent border-0 border-b-2 border-white focus:outline-none focus:border-blue-500 peer"
+                                            placeholder=" " />
+                                        <label for="avatar"
+                                            className="absolute text-sm text-white duration-300 transform -translate-y-6 scale-75 top-3 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                                            Avatar
+                                        </label>
+                                    </div>
 
 
-                                <div class="relative z-0 w-full mb-5 group">
-                                
-                                    <input type="email" id="salary"
+                                    <div className="relative z-0 w-full mb-5 group">
+
+
+                                        <input type="text" id="lastname"
+                                            onChange={(e) => setLastName(e.target.value)}
+                                            className="block py-2.5 w-full text-sm text-white bg-transparent border-0 border-b-2 border-white focus:outline-none focus:border-blue-500 peer"
+                                            placeholder=" " />
+                                        <label for="lastname"
+                                            className="absolute text-sm text-white duration-300 transform -translate-y-6 scale-75 top-3 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                                            Last Name
+                                        </label>
+                                    </div>
+
+                                    <div className="relative z-0 w-full mb-5 group">
+
+
+                                        <input type="text" id="lastname"
+                                            onChange={(e) => setgrade(e.target.value)}
+                                            className="block py-2.5 w-full text-sm text-white bg-transparent border-0 border-b-2 border-white focus:outline-none focus:border-blue-500 peer"
+                                            placeholder=" " />
+                                        <label for="lastname"
+                                            className="absolute text-sm text-white duration-300 transform -translate-y-6 scale-75 top-3 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                                            grade
+                                        </label>
+                                    </div>
+
+
+                                    <div className="relative z-0 w-full mb-5 group">
+
+                                        <input type="email" id="salary"
                                             value={email}
                                             onChange={(e) => setemail(e.target.value)}
-                                        class="block py-2.5 w-full text-sm text-white bg-transparent border-0 border-b-2 border-white focus:outline-none focus:border-blue-500 peer"
-                                        placeholder=" " />
-                                    <label for="salary"
-                                        class="absolute text-sm text-white duration-300 transform -translate-y-6 scale-75 top-3 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-                                        email
-                                    </label>
-                                </div>
+                                            className="block py-2.5 w-full text-sm text-white bg-transparent border-0 border-b-2 border-white focus:outline-none focus:border-blue-500 peer"
+                                            placeholder=" " />
+                                        <label for="salary"
+                                            className="absolute text-sm text-white duration-300 transform -translate-y-6 scale-75 top-3 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                                            email
+                                        </label>
+                                    </div>
 
 
-                                    <div class="relative z-0 w-full mb-5 group">
-                                        <select name="science" class="border-b border-white px-3 py-2 w-full text-[white]">
-                                           
+                                    <div className="relative z-0 w-full mb-5 group">
+                                        <select
+                                            name="science"
+                                            className="border-b border-white px-3 py-2 w-full text-white"
                                             onChange={(e) => setTeacherId(e.target.value)}
+                                        >
+
                                             {teachers?.map((el) => (
                                                 <option key={el.id} className="text-black" value={el.id}>{el.LastName}</option>
                                             ))}
                                         </select>
+
                                     </div>
 
 
-                                <div class="grid md:grid-cols-2 md:gap-6">
-                                    <div class="relative z-0 w-full mb-5 group">
-                                        <input type="number" id="age"
+                                    <div className="grid md:grid-cols-2 md:gap-6">
+                                        <div className="relative z-0 w-full mb-5 group">
+                                            <input type="number" id="age"
                                                 value={age}
                                                 onChange={(e) => setage(e.target.value)}
-                                            class="block py-2.5 w-full text-sm text-white bg-transparent border-0 border-b-2 border-white peer focus:outline-none"
-                                            placeholder=" " />
-                                        <label for="age"
-                                            class="absolute text-sm text-white duration-300 transform -translate-y-6 scale-75 top-3 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-                                            Age
-                                        </label>
+                                                className="block py-2.5 w-full text-sm text-white bg-transparent border-0 border-b-2 border-white peer focus:outline-none"
+                                                placeholder=" " />
+                                            <label for="age"
+                                                className="absolute text-sm text-white duration-300 transform -translate-y-6 scale-75 top-3 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                                                Age
+                                            </label>
+                                        </div>
+                                        <div className="relative z-0 w-full mb-5 group">
+
+
+                                            <input type="number" id="phone"
+                                                onChange={(e) => setphone(e.target.value)}
+                                                className="block py-2.5 w-full text-sm text-white bg-transparent border-0 border-b-2 border-white peer focus:outline-none"
+                                                placeholder=" " />
+                                            <label for="phone"
+                                                className="absolute text-sm text-white duration-300 transform -translate-y-6 scale-75 top-3 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                                                Phone
+                                            </label>
+                                        </div>
+
                                     </div>
-                                    <div class="relative z-0 w-full mb-5 group">
-                                            value={phone}
-                                            onChange={(e) => setphone(e.target.value)}
-                                        <input type="number" id="phone"
-                                            class="block py-2.5 w-full text-sm text-white bg-transparent border-0 border-b-2 border-white peer focus:outline-none"
-                                            placeholder=" " />
-                                        <label for="phone"
-                                            class="absolute text-sm text-white duration-300 transform -translate-y-6 scale-75 top-3 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-                                            Phone
-                                        </label>
-                                    </div>
-
-                                </div>
 
 
-                                <div class="grid md:grid-cols-2 md:gap-6">
-                                    <div class="relative z-0 w-full mb-5 group">
-                                        <input type="text" id="telegram"
-                                                value={telegram}
+                                    <div className="grid md:grid-cols-2 md:gap-6">
+                                        <div className="relative z-0 w-full mb-5 group">
+                                            <input type="text" id="telegram"
+
                                                 onChange={(e) => settelegram(e.target.value)}
-                                            class="block py-2.5 w-full text-sm text-white bg-transparent border-0 border-b-2 border-white peer focus:outline-none"
-                                            placeholder=" " />
-                                        <label for="telegram"
-                                            class="absolute text-sm text-white duration-300 transform -translate-y-6 scale-75 top-3 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-                                            Telegram
-                                        </label>
-                                    </div>
+                                                className="block py-2.5 w-full text-sm text-white bg-transparent border-0 border-b-2 border-white peer focus:outline-none"
+                                                placeholder=" " />
+                                            <label for="telegram"
+                                                className="absolute text-sm text-white duration-300 transform -translate-y-6 scale-75 top-3 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                                                Telegram
+                                            </label>
+                                        </div>
 
-                                    <div class="relative z-0 w-full mb-5 group">
-                                        <input type="text" id="linkedin"
-                                                value={
-                                                    Linkedin}
+                                        <div className="relative z-0 w-full mb-5 group">
+                                            <input type="text" id="linkedin"
+
                                                 onChange={(e) => setLinkedin(e.target.value)}
-                                            class="block py-2.5 w-full text-sm text-white bg-transparent border-0 border-b-2 border-white peer focus:outline-none"
-                                            placeholder=" " />
-                                        <label for="linkedin"
-                                            class="absolute text-sm text-white duration-300 transform -translate-y-6 scale-75 top-3 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-                                            LinkedIn
-                                        </label>
+                                                className="block py-2.5 w-full text-sm text-white bg-transparent border-0 border-b-2 border-white peer focus:outline-none"
+                                                placeholder=" " />
+                                            <label for="linkedin"
+                                                className="absolute text-sm text-white duration-300 transform -translate-y-6 scale-75 top-3 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                                                LinkedIn
+                                            </label>
+                                        </div>
                                     </div>
-                                </div>
 
 
-                                <div class="grid md:grid-cols-2 md:gap-6">
-                                    <div class="relative z-0 w-full mb-5 group">
-                                        <input type="text" id="telegram"
+                                    <div className="grid md:grid-cols-2 md:gap-6">
+                                        <div className="relative z-0 w-full mb-5 group">
+                                            <input type="text" id="telegram"
                                                 value={rating}
                                                 onChange={(e) => setrating(e.target.value)}
-                                            class="block py-2.5 w-full text-sm text-white bg-transparent border-0 border-b-2 border-white peer focus:outline-none"
-                                            placeholder=" " />
-                                        <label for="telegram"
-                                            class="absolute text-sm text-white duration-300 transform -translate-y-6 scale-75 top-3 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-                                            reating
-                                        </label>
+                                                className="block py-2.5 w-full text-sm text-white bg-transparent border-0 border-b-2 border-white peer focus:outline-none"
+                                                placeholder=" " />
+                                            <label for="telegram"
+                                                className="absolute text-sm text-white duration-300 transform -translate-y-6 scale-75 top-3 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                                                reating
+                                            </label>
+                                        </div>
+
+                                        <div className="relative z-0 w-full mb-5 group">
+
+
+                                            <input type="text" id="linkedin"
+                                                onChange={(e) => setcoins(e.target.value)}
+                                                className="block py-2.5 w-full text-sm text-white bg-transparent border-0 border-b-2 border-white peer focus:outline-none"
+                                                placeholder=" " />
+                                            <label for="linkedin"
+                                                className="absolute text-sm text-white duration-300 transform -translate-y-6 scale-75 top-3 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                                                coins
+                                            </label>
+                                        </div>
                                     </div>
 
-                                    <div class="relative z-0 w-full mb-5 group">
-                                            value={coins}
-                                            onChange={(e) => setcoins(e.target.value)}
-                                        <input type="text" id="linkedin"
-                                            class="block py-2.5 w-full text-sm text-white bg-transparent border-0 border-b-2 border-white peer focus:outline-none"
-                                            placeholder=" " />
-                                        <label for="linkedin"
-                                            class="absolute text-sm text-white duration-300 transform -translate-y-6 scale-75 top-3 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-                                            coins
-                                        </label>
-                                    </div>
-                                </div>
+
+                                    <button  type="submit"
+                                        className="text-white bg-blue-600 border border-blue-600 mt-[30px] rounded-[10px] px-4 py-2.5 hover:bg-blue-700">
+                                        Submit
+                                    </button>
+
+                                </form>
+                            </div> : ""
+                    }
 
 
-                                <button id="btn" type="submit"
-                                    class="text-white bg-blue-600 border border-blue-600 mt-[30px] rounded-[10px] px-4 py-2.5 hover:bg-blue-700">
-                                    Submit
-                                </button>
-
-                            </form>
-                        </div> :""
-                     }
-
-
-                    <div className='flex gap-[40px] itame-center mt-[40px]'>
-                        <input onChange={(e) => setSearchValue(e.target.value)} className='border-[2px] border-[orangered] p-[10px]  text-[18px] fond-bold  text-black ml-[70px] w-[600px] rounded-[10px]' type="search" placeholder='Studentlarni qidirish' />
-                        <button type='submit' onClick={() => setIsOpenModel(true)}  className='bg-blue-600 text-white p-[10px] rounded-[10px] text-[18px]  curcor-pointer '>
-                            O'quvchi qo'shish
-                        </button>
+                    <div className=''>
+                        <div className='flex gap-[50px] items-center mt-[30px] ml-[70px] sm:flex-col mr-[130px]'>
+                            <input onChange={(e) => setSearchValue(e.target.value)} className='border-[2px] border-[orangered] p-[10px]  text-[18px] fond-bold  w-full text-black ml-[70px] max-w-[600px]   rounded-[10px]' type="search" placeholder='Studentlarni qidirish' />
+                            <button type='submit' onClick={() => setIsOpenModel(true)} className='bg-blue-600 text-white p-[10px] rounded-[10px] text-[18px]  curcor-pointer '>
+                                O'quvchi qo'shish
+                            </button>
+                       </div>
                     </div>
-                    <div className='grid grid-cols-4 gap-5 p-5 container mx-auto'>
+                    <div className='grid xl:grid-cols-3  2xl:grid-cols-4 lg:grid-cols-2 gap-5 p-5 container mx-auto'>
                         {
-                            Students.map((el) => (
-                                <div key={el.id} className='border-[1px] border-[black]/30 max-w-[300px] w-full h-[440px] rounded-[20px] mr-auto ml-auto block'>
+                            Students.map((el, index) => (
+                                <div key={index} className='border-[1px] border-[black]/30 max-w-[300px] w-full h-[440px] rounded-[20px] mr-auto ml-auto block'>
                                     <Link to={`/students/${el.id}`}>
                                         <div className="w-[80px] h-[80px] rounded-full overflow-hidden mx-auto mt-[10px]">
 
@@ -313,10 +326,10 @@ console.log(err);
 
 
                                     <div class="flex gap-[20px] mt-[30px] justify-center">
-                                        <button onclick="editStudent('${el.id}')"
+                                        <button onClick={() => editStudent('${el.id}')}
                                             class="bg-[white] text-white px-[40px] py-[8px] rounded-md  hover:bg-[black]">Edit</button>
 
-                                        <button onclick="deleteStudent('${el.id}')"
+                                        <button onClick={() => deleteStudent('${el.id}')}
                                             class="bg-[white]  px-[40px] py-[8px] text-white px-3 rounded-md  hover:bg-[red] ">Delete</button>
                                     </div>
 

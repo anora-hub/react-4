@@ -1,13 +1,13 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-const TeacherCard = ({ id, avatar, LastName, science, salary, age, reting, phone, email, telegram, Linkedin, deleteteachers, setIsOpenMadal, setSelected , edit} ) => {
+const TeacherCard = ({   id, avatar, LastName, science, salary, age, reting, phone, email, telegram, Linkedin, deleteteachers, setIsOpenMadal, setSelected , edit} ) => {
 
 
 
 
   return (
-    <div>
+    <div> 
                  
                     <div key={id} class="border-[1px] border-[black]/30 max-w-[300px] w-full h-[440px] rounded-[20px] block mx-auto">
                     <Link to={`/teachers/${id}`} className='max-w-[400px] w-full rounded '>

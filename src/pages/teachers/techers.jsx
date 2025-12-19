@@ -122,8 +122,8 @@ const Teachers = () => {
 
     loading ? <div className=' flex items-center justify-center flex-col h-screen  text-red-600 animate-bounce text-[24px]'>Loading...</div> :
       <div >
-        <div className='flex gap-[50px] items-center mt-[30px] ml-[70px]'>
-          <input onChange={(e) => setTeachersSearch(e.target.value)} className='border-[2px] border-[orangered] p-[10px]  text-[18px] fond-bold  text-black   w-[600px] rounded-[10px]' type="search" placeholder='Studentlarni qidirish' />
+        <div className='flex gap-[50px] items-center mt-[30px] ml-[70px] sm:flex-col  mr-[130px]'>
+          <input onChange={(e) => setTeachersSearch(e.target.value)} className='border-[2px] border-[orangered] p-[10px]  text-[18px] fond-bold w-full   text-black   max-w-[600px] rounded-[10px]' type="search" placeholder='Studentlarni qidirish' />
           <button onClick={() => setIsOpenMadal(true)} className='bg-blue-600 text-white p-[10px] rounded-[10px] text-[18px]  curcor-pointer '>
             O'qituvchi qo'shish
           </button>
@@ -257,7 +257,7 @@ const Teachers = () => {
 
 
 
-        < div className='grid grid-cols-4 gap-6 p-5 container mx-auto' > {
+        < div className=' grid  xl:grid-cols-3  2xl:grid-cols-4 lg:grid-cols-2 gap-6 p-5 container mx-auto' > {
           techers.map((el) => (
 
             <TeacherCard {...el} edit={edit} setSelected={setSelected} setIsOpenMadal={setIsOpenMadal} deleteteachers={deleteteachers} />
